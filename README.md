@@ -7,9 +7,19 @@
 
 ## Libraries & Dependencies
 
-- express.JS
+### - backend
+
+- express
 - dotenv
-- express async handler
+- express-async-handler
 - mongoose
 - colors
-- json web token
+- jsonwebtoken
+
+### - frontend
+
+- react-redux
+- react-router-dom
+- react-icons
+- react-toastify
+- axios
