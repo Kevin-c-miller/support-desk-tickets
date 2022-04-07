@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { FaUser } from 'react-icons/fa';
 import { register, reset } from '../features/auth/authSlice';
+import Spinner from '../components/Spinner';
 
 export default function Register() {
   const [formData, setFormData] = useState({
@@ -13,12 +14,11 @@ export default function Register() {
     confirmPassword: '',
   });
 
-  //   destructing the state fields
+  //  destructing the state fields
   const { name, email, password, confirmPassword } = formData;
 
   // dispatch from react-redux library
   const dispatch = useDispatch();
-
   const navigate = useNavigate();
 
   // able to bring in any piece of glabal state using this hook
@@ -63,6 +63,10 @@ export default function Register() {
       dispatch(register(userData));
     }
   };
+
+  if (isLoading) {
+    return <Spinner />;
+  }
 
   return (
     <>

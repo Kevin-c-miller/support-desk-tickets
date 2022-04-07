@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { login } from '../features/auth/authSlice';
-
+import { useNavigate } from 'react-router-dom';
+import { login, reset } from '../features/auth/authSlice';
 import { toast } from 'react-toastify';
 import { FaSignInAlt } from 'react-icons/fa';
+import Spinner from '../components/Spinner';
 
 export default function Login() {
   const [formData, setFormData] = useState({
@@ -12,15 +13,30 @@ export default function Login() {
   });
 
   //   destructing the state fields
-  const { name, email, password, confirmPassword } = formData;
+  const { email, password } = formData;
 
   // dispatch from react-redux library
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   // able to bring in any piece of glabal state using this hook
-  const { user, isLoading, isSuccess, message } = useSelector(
+  const { user, isLoading, isSuccess, message, isError } = useSelector(
     (state) => state.auth
   );
+
+  useEffect(() => {
+    // if error
+    if (isError) {
+      toast.error(message);
+    }
+
+    // Redirect when logged in
+    if (isSuccess || user) {
+      navigate('/');
+    }
+
+    dispatch(reset);
+  }, [dispatch, isError, isSuccess, message, navigate, user]);
 
   //   onchange function for the form input fields
   const onChange = (e) => {
@@ -38,8 +54,13 @@ export default function Login() {
       email,
       password,
     };
+
     dispatch(login(userData));
   };
+
+  if (isLoading) {
+    return <Spinner />;
+  }
 
   return (
     <>
