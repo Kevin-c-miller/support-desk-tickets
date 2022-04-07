@@ -1,4 +1,7 @@
 import { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { login } from '../features/auth/authSlice';
+
 import { toast } from 'react-toastify';
 import { FaSignInAlt } from 'react-icons/fa';
 
@@ -11,6 +14,14 @@ export default function Login() {
   //   destructing the state fields
   const { name, email, password, confirmPassword } = formData;
 
+  // dispatch from react-redux library
+  const dispatch = useDispatch();
+
+  // able to bring in any piece of glabal state using this hook
+  const { user, isLoading, isSuccess, message } = useSelector(
+    (state) => state.auth
+  );
+
   //   onchange function for the form input fields
   const onChange = (e) => {
     setFormData((prevState) => ({
@@ -22,6 +33,12 @@ export default function Login() {
   //   submit function for the form
   const onSubmit = (e) => {
     e.preventDefault();
+
+    const userData = {
+      email,
+      password,
+    };
+    dispatch(login(userData));
   };
 
   return (

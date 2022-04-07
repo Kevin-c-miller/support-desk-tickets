@@ -1,6 +1,9 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { FaUser } from 'react-icons/fa';
+import { register, reset } from '../features/auth/authSlice';
 
 export default function Register() {
   const [formData, setFormData] = useState({
@@ -12,6 +15,30 @@ export default function Register() {
 
   //   destructing the state fields
   const { name, email, password, confirmPassword } = formData;
+
+  // dispatch from react-redux library
+  const dispatch = useDispatch();
+
+  const navigate = useNavigate();
+
+  // able to bring in any piece of glabal state using this hook
+  const { user, isLoading, isSuccess, message, isError } = useSelector(
+    (state) => state.auth
+  );
+
+  useEffect(() => {
+    // if error
+    if (isError) {
+      toast.error(message);
+    }
+
+    // Redirect when logged in
+    if (isSuccess || user) {
+      navigate('/');
+    }
+
+    dispatch(reset);
+  }, [dispatch, isError, isSuccess, message, navigate, user]);
 
   //   onchange function for the form input fields
   const onChange = (e) => {
@@ -27,6 +54,13 @@ export default function Register() {
 
     if (password !== confirmPassword) {
       toast.error('Passwords do not match');
+    } else {
+      const userData = {
+        name,
+        email,
+        password,
+      };
+      dispatch(register(userData));
     }
   };
 
