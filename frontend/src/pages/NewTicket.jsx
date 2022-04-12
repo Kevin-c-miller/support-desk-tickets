@@ -9,7 +9,7 @@ import BackButton from '../components/BackButton';
 export default function NewTicket() {
   const { user } = useSelector((state) => state.auth);
   const { isLoading, isError, isSuccess, message } = useSelector(
-    (state) => state.ticket
+    (state) => state.tickets
   );
 
   const [name] = useState(user.name);
@@ -23,6 +23,7 @@ export default function NewTicket() {
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(createTicket({ product, description }));
+    console.log('new ticket created');
   };
 
   useEffect(() => {
@@ -32,7 +33,7 @@ export default function NewTicket() {
 
     if (isSuccess) {
       dispatch(reset());
-      // navigate('/tickets');
+      navigate('/tickets');
     }
 
     dispatch(reset());
