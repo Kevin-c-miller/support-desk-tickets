@@ -15,8 +15,26 @@ const getNotes = async (ticketId, token) => {
   return res.data;
 };
 
+// create ticket note
+const createNote = async (noteText, ticketId, token) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  const res = await axios.post(
+    API_URL + ticketId + '/notes',
+    { text: noteText },
+    config
+  );
+
+  return res.data;
+};
+
 const notesService = {
   getNotes,
+  createNote,
 };
 
 export default notesService;

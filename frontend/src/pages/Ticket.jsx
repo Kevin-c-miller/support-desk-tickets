@@ -2,7 +2,11 @@ import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getTicket, closeTicket } from '../features/tickets/ticketSlice';
-import { getNotes, reset as notesReset } from '../features/notes/notesSlice';
+import {
+  createNote,
+  getNotes,
+  reset as notesReset,
+} from '../features/notes/notesSlice';
 import BackButton from '../components/BackButton';
 import Spinner from '../components/Spinner';
 import NoteItem from '../components/NoteItem';
@@ -65,7 +69,7 @@ export default function Ticket() {
   // create submit note
   const onNoteSubmit = (e) => {
     e.preventDefault();
-    console.log('submit');
+    dispatch(createNote({ noteText, ticketId }));
     closeModal();
   };
 
