@@ -25,15 +25,12 @@ const login = async (userData) => {
 };
 
 // logout user
-const logoutUser = () => {
-  console.log('removed user');
-  localStorage.removeItem('user');
-};
+const logout = () => localStorage.removeItem('user');
 
 // any function in this object will be exported
 const authService = {
   register,
   login,
-  logoutUser,
+  logout,
 };
 export default authService;

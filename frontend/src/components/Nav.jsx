@@ -1,7 +1,7 @@
 import { FaSignInAlt, FaSignOutAlt, FaUser } from 'react-icons/fa';
 import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { logoutUser, reset } from '../features/auth/authSlice';
+import { logout, reset } from '../features/auth/authSlice';
 
 export default function Nav() {
   const navigate = useNavigate();
@@ -11,7 +11,7 @@ export default function Nav() {
   // logout fucntion
   const onLogout = () => {
     console.log('logging out');
-    dispatch(logoutUser());
+    dispatch(logout());
     dispatch(reset());
     navigate('/');
   };
